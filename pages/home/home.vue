@@ -1,5 +1,6 @@
 <template>
 	<view>
+		<search />
 		<!-- 轮播图 -->
 		<swiper :indicator-dots="true" :autoplay="true" :interval="3000" :duration="1000">
 			<swiper-item v-for="k in swiperList" :key="k['goods_id']">
@@ -136,8 +137,7 @@
 			grid-template-rows: repeat(2, 1fr);
 			grid-template-columns: repeat(3, minmax(auto, 33.33%)); // 允许列缩小以适合父容器并且不会导致溢出
 			// grid-template-columns: repeat(3, 1fr); // Grid仅剩空间的百分比，1fr = 100%, .25fr = 25%
-			grid-row-gap: 12rpx;
-			grid-column-gap: 12rpx;
+			grid-gap: 12rpx;
 
 			.floor_box {
 				&:nth-child(1) {

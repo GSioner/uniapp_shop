@@ -1,47 +1,53 @@
 {
 	"pages": [{
-		"path": "pages/home/home",
-		"style": {
-			"enablePullDownRefresh": false
-		}
-
-	}, {
-		"path": "pages/cate/cate",
-		"style": {
-			"enablePullDownRefresh": false,
-			"usingComponents": {
-				"van-button": "../../static/vant/button/index",
-				"van-sidebar": "../../static/vant/sidebar/index",
-				"van-sidebar-item": "../../static/vant/sidebar-item/index"
+			"path": "pages/home/home",
+			"style": {
+				"enablePullDownRefresh": false
 			}
+
+		}, {
+			"path": "pages/cate/cate",
+			"style": {
+				"enablePullDownRefresh": false,
+				"usingComponents": {
+					"van-button": "../../static/vant/button/index",
+					"van-sidebar": "../../static/vant/sidebar/index",
+					"van-sidebar-item": "../../static/vant/sidebar-item/index"
+				}
+			}
+
+		}, {
+			"path": "pages/cart/cart",
+			"style": {
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/my/my",
+			"style": {
+				"enablePullDownRefresh": false
+			}
+
 		}
 
-	}, {
-		"path": "pages/cart/cart",
-		"style": {
-			"enablePullDownRefresh": false
-		}
-
-	}, {
-		"path": "pages/my/my",
-		"style": {
-			"enablePullDownRefresh": false
-		}
-
-	}],
+	],
 	"subPackages": [{
 		"root": "shop_goods",
 		"pages": [{
 			"path": "goods_detail/goods_detail",
 			"style": {
-				"navigationBarTitleText": "",
 				"enablePullDownRefresh": false
 			}
 
 		}, {
 			"path": "goods_list/goods_list",
 			"style": {
-				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "my_search/my_search",
+			"style": {
 				"enablePullDownRefresh": false
 			}
 

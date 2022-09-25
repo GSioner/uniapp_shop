@@ -1,30 +1,33 @@
 <template>
-	<view class="cateitemBox">
-		<!-- 左侧分类侧边栏 -->
-		<van-sidebar class="cate">
-			<van-sidebar-item :title="k.cat_name" v-for="k in catelistData" :key="k.cat_id"
-				@click="tapCatelist(k.children)">
-			</van-sidebar-item>
-		</van-sidebar>
-		<!-- 右侧分类详情 -->
-		<scroll-view scroll-y="true" :scroll-top="scrollTop" class="shops" :style="{height: scrollH + 'px'}">
-			<view class="shopitem" v-for="k in cateitemList" :key="k.cat_id">
-				<!-- 种类标题 -->
-				<view class="title">{{k.cat_name}}</view>
-				<!-- 种类子板块品牌 -->
-				<view class="shopitemview">
-					<view class="shopBox" v-for="item in k.children" :key="item.cat_id" @click="tapCateshop(item)">
-						<!-- 品牌图片 -->
-						<view class="imgBox">
-							<image :src="item.cat_icon" class="img"></image>
+	<block>
+		<search />
+		<view class="cateitemBox">
+			<!-- 左侧分类侧边栏 -->
+			<van-sidebar class="cate">
+				<van-sidebar-item :title="k.cat_name" v-for="k in catelistData" :key="k.cat_id"
+					@click="tapCatelist(k.children)">
+				</van-sidebar-item>
+			</van-sidebar>
+			<!-- 右侧分类详情 -->
+			<scroll-view scroll-y="true" :scroll-top="scrollTop" class="shops" :style="{height: scrollH + 'px'}">
+				<view class="shopitem" v-for="k in cateitemList" :key="k.cat_id">
+					<!-- 种类标题 -->
+					<view class="title">{{k.cat_name}}</view>
+					<!-- 种类子板块品牌 -->
+					<view class="shopitemview">
+						<view class="shopBox" v-for="item in k.children" :key="item.cat_id" @click="tapCateshop(item)">
+							<!-- 品牌图片 -->
+							<view class="imgBox">
+								<image :src="item.cat_icon" class="img"></image>
+							</view>
+							<!-- 品牌介绍 -->
+							<view class="txt">{{item.cat_name}}</view>
 						</view>
-						<!-- 品牌介绍 -->
-						<view class="txt">{{item.cat_name}}</view>
 					</view>
 				</view>
-			</view>
-		</scroll-view>
-	</view>
+			</scroll-view>
+		</view>
+	</block>
 </template>
 
 <script>
@@ -38,7 +41,7 @@
 			};
 		},
 		onLoad() {
-			this.scrollH = uni.getSystemInfoSync().windowHeight
+			this.scrollH = uni.getSystemInfoSync().windowHeight + 180
 			this.getCatelistData()
 		},
 		methods: {
