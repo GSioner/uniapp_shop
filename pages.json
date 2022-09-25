@@ -8,7 +8,12 @@
 	}, {
 		"path": "pages/cate/cate",
 		"style": {
-			"enablePullDownRefresh": false
+			"enablePullDownRefresh": false,
+			"usingComponents": {
+				"van-button": "../../static/vant/button/index",
+				"van-sidebar": "../../static/vant/sidebar/index",
+				"van-sidebar-item": "../../static/vant/sidebar-item/index"
+			}
 		}
 
 	}, {
