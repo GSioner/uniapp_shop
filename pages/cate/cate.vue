@@ -49,7 +49,6 @@
 				const {
 					data: res
 				} = await uni.$http.get('/categories')
-				console.log('categories', res)
 				if (res.meta.status !== 200) return uni.$msg()
 				this.catelistData = res.message
 				this.cateitemList = res.message[0].children

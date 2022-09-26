@@ -38,7 +38,7 @@
 		data() {
 			return {
 				value: '',
-				historyData: uni.getStorageSync('history') || '',
+				historyData: uni.getStorageSync('history') || [],
 				showHistory: true,
 				suggestionData: [],
 				deleteIcon: false
@@ -52,7 +52,6 @@
 				} = await uni.$http.get('/goods/qsearch', {
 					query: this.value
 				})
-				console.log('qsearch', res)
 				if (res.meta.status !== 200) return
 				if (!res.message.length) {
 					this.suggestionData = []
@@ -67,12 +66,7 @@
 				})
 			},
 			onChange(e) {
-				if (this.historyData.length) {
-					this.updateHistoryList(e)
-					uni.setStorageSync('history', this.historyData)
-				} else {
-					uni.setStorageSync('history', [e])
-				}
+				this.historyData.length ? this.updateHistoryList(e) : uni.setStorageSync('history', [e])
 				this.value = e
 				this.onInput()
 			},
@@ -89,9 +83,13 @@
 					uni.navigateTo({
 						url: '/shop_goods/goods_list/goods_list?query=' + k
 					})
+					setTimeout(() => {
+						this.updateHistoryList(k)
+					}, 1000)
 				}
 			},
 			toShoplistPage(data) {
+				this.updateHistoryList(this.value)
 				uni.navigateTo({
 					url: '/shop_goods/goods_list/goods_list?goods_id=' + data.goods_id
 				})
@@ -102,6 +100,7 @@
 				set.add(k)
 				this.historyData = Array.from(set)
 				this.historyData = [...this.historyData].reverse()
+				uni.setStorageSync('history', this.historyData)
 			}
 		}
 	}

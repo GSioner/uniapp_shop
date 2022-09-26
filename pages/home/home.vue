@@ -47,7 +47,6 @@
 				const {
 					data: res
 				} = await uni.$http.get('/home/swiperdata')
-				console.log('swiper', res)
 				if (res.meta.status !== 200) return uni.$msg()
 				this.swiperList = res.message
 				uni.$msg({
@@ -59,7 +58,6 @@
 				const {
 					data: res
 				} = await uni.$http.get('/home/catitems')
-				console.log('catitems', res)
 				if (res.meta.status !== 200) return uni.$msg()
 				this.catitemsList = res.message
 				uni.$msg({
@@ -79,7 +77,6 @@
 				const {
 					data: res
 				} = await uni.$http.get('/home/floordata')
-				console.log('floor', res)
 				if (res.meta.status !== 200) return uni.$msg()
 				this.floorList = res.message
 				uni.$msg({
@@ -89,7 +86,9 @@
 			// 楼梯图片跳转商品详情
 			translateTo(data) {
 				const res = data.navigator_url.replace(/[\s|\w|\d|\/]*\?/, '')
-				console.log(res);
+				uni.navigateTo({
+					url: '/shop_goods/goods_list/goods_list?' + res
+				})
 			}
 		},
 		onLoad() {
