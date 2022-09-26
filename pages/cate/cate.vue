@@ -3,13 +3,13 @@
 		<search />
 		<view class="cateitemBox">
 			<!-- 左侧分类侧边栏 -->
-			<van-sidebar class="cate">
+			<van-sidebar class="cate" >
 				<van-sidebar-item :title="k.cat_name" v-for="k in catelistData" :key="k.cat_id"
 					@click="tapCatelist(k.children)">
 				</van-sidebar-item>
 			</van-sidebar>
 			<!-- 右侧分类详情 -->
-			<scroll-view scroll-y="true" :scroll-top="scrollTop" class="shops" :style="{height: scrollH + 'px'}">
+			<scroll-view scroll-y="true" :scroll-top="scrollTop" class="shops" :style="{height: scrollH + 'px'}" enable-flex>
 				<view class="shopitem" v-for="k in cateitemList" :key="k.cat_id">
 					<!-- 种类标题 -->
 					<view class="title">{{k.cat_name}}</view>

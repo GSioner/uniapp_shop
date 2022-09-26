@@ -30,7 +30,7 @@
 		</view>
 
 		<!-- 商品详情 -->
-		<mp-html :content="goodsData.goods_introduce" class="richTxt" />
+		<mp-html :content="goodsData.goods_introduce" class="richTxt" v-if="goodsData.goods_introduce" />
 
 		<!-- 加入购物车底部按钮 -->
 		<view class="uni-container">
@@ -42,6 +42,7 @@
 
 <script>
 	import vanIcon from '../../static/vant/icon/index'
+	import { mapMutations, mapGetters } from 'vuex'
 	export default {
 		components: {
 			vanIcon
@@ -60,7 +61,7 @@
 				}, {
 					icon: 'cart',
 					text: '购物车',
-					info: 2
+					info: uni.getStorageSync('cartNum') || 0
 				}],
 				customButtonGroup: [{
 						text: '加入购物车',
@@ -81,9 +82,17 @@
 		watch: {
 			goodsData() {
 				this.preivewImgList = this.goodsData.pics.map(item => item.pics_big)
+			},
+			cartNumb(newVal) {
+				const targetArr = this.options.find(item => item.text === '购物车')
+				targetArr.info = newVal
 			}
 		},
+		computed: {
+			...mapGetters(['cart', 'cartNumb'])
+		},
 		methods: {
+			...mapMutations('cart', ['ADD_CART']),
 			async getGoodsData(str) {
 				const {
 					data: res
@@ -102,7 +111,7 @@
 				})
 			},
 			previewImage(i) {
-				wx.previewImage({
+				uni.previewImage({
 					current: this.preivewImgList[i],
 					urls: this.preivewImgList
 				})
@@ -113,7 +122,17 @@
 				})
 			},
 			buttonClick(e) {
-				console.log(e.index)
+				if (!e.index) {
+					const goods = {
+						goods_id: this.goodsData.goods_id,
+						goods_name: this.goodsData.goods_name,
+						goods_price: this.goodsData.goods_price,
+						goods_count: 1,
+						goods_small_logo: this.goodsData.goods_small_logo,
+						goods_state: true
+					}
+					this.ADD_CART(goods)
+				}
 			}
 		}
 	}
