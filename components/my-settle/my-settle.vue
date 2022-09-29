@@ -7,7 +7,7 @@
 			<text>合计:</text>
 			<text class="settlt_price">{{cost.toFixed(2)}}</text>
 		</view>
-		<view class="settle_btn">
+		<view class="settle_btn" @click="paypal">
 			<text>结算(<text>{{total}}</text>)</text>
 		</view>
 	</view>
@@ -20,7 +20,7 @@
 	export default {
 		name: "my-settle",
 		computed: {
-			...mapGetters(['cart']),
+			...mapGetters(['cart', 'myAddress', 'token']),
 		},
 		watch: {
 			cart: {
@@ -44,6 +44,12 @@
 			checkAll() {
 				this.chooseAll = !this.chooseAll
 				this.$emit('checkAll', this.chooseAll)
+			},
+			paypal() {
+				if (!this.total) return uni.$msg({title: '请选择商品', icon: 'error'})
+				if (!this.myAddress.length) return uni.$msg({title: '请选择收货地址', icon: 'error'})
+				if (!this.token) return uni.$msg({title: '请先登陆', icon: 'error'})
+				this.$emit('paypal')
 			}
 		}
 	}

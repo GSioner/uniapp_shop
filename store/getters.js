@@ -5,5 +5,6 @@ export default {
 		uni.setStorageSync('cartNum', num)
 		return num
 	},
-	myAddress: state => state.address.address
+	myAddress: state => state.address.address,
+	token: state => state.user.token
 }
