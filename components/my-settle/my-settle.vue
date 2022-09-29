@@ -15,7 +15,8 @@
 
 <script>
 	import {
-		mapGetters
+		mapGetters,
+		mapMutations
 	} from 'vuex'
 	export default {
 		name: "my-settle",
@@ -37,10 +38,19 @@
 			return {
 				chooseAll: false,
 				cost: 0,
-				total: 0
+				total: 0,
+				second: 3,
+				time: null
 			};
 		},
+		onunload() {
+			clearInterval(this.time)
+		},
+		beforeDestroy() {
+			clearInterval(this.time)
+		},
 		methods: {
+			...mapMutations('user', ['ADD_DEDIRECT']),
 			checkAll() {
 				this.chooseAll = !this.chooseAll
 				this.$emit('checkAll', this.chooseAll)
@@ -48,8 +58,48 @@
 			paypal() {
 				if (!this.total) return uni.$msg({title: '请选择商品', icon: 'error'})
 				if (!this.myAddress.length) return uni.$msg({title: '请选择收货地址', icon: 'error'})
-				if (!this.token) return uni.$msg({title: '请先登陆', icon: 'error'})
-				this.$emit('paypal')
+				if (!this.token) {
+					this.time = setInterval(() => {
+						if (this.second <= 0) {
+							this.second = 3
+							uni.switchTab({
+								url: '/pages/my/my',
+								success: () => {
+									this.ADD_DEDIRECT({
+										openType: 'switchTab',
+										url: '/pages/cart/cart'
+									})
+								}
+							})
+							return clearInterval(this.time)
+						}
+						this.jumpToLogin(this.second)
+						this.second--
+					}, 1000)
+				}
+				this.paypel()
+			},
+			jumpToLogin(n) {
+				uni.showToast({
+					icon: 'none',
+					title: '检测到未登录，将在' + n + 's后跳转至登录页',
+					mask: true, 
+					duration: 1500
+				})
+			},
+			async paypel() {
+				const order = {
+					order_price: 0.01,
+					consignee_addr: this.myAddress,
+					goods: this.cart.filter(outer => outer.goods_state).map(inner => ({
+						goods_id: inner.goods_id,
+						goods_number: inner.goods_count,
+						goods_price: inner.goods_price
+					}))
+				}
+				
+				const { data: res } = await uni.$http.post('/orders/create', order)
+				if (res.mate.status !== 200) return uni.$msg({title: '创建订单失败，请稍后重试'})
 			}
 		}
 	}

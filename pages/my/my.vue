@@ -14,12 +14,28 @@
 			return {}
 		},
 		methods: {
-			login() {
+			async login() {
+				if (this.redirect) {
+					uni.showLoading()
+					return setTimeout(() => {
+						uni[this.redirect.openType]({
+							url: this.redirect.url,
+							complete: () => {
+								this.$store.commit('user/ADD_DEDIRECT', null)
+								console.log(this.redirect);
+							},
+							success: () => {
+								uni.hideLoading()
+								this.$store.commit('user/ADD_TOKEN')
+							}
+						})
+					}, 500)
+				}
 				this.$store.commit('user/ADD_TOKEN')
 			}
 		},
 		computed: {
-			...mapState('user', ['token'])
+			...mapState('user', ['token', 'redirect'])
 		}
 	}
 </script>
