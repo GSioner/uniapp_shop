@@ -1,9 +1,9 @@
 export default {
 	cart: state => state.cart.cart,
 	cartNumb: state => {
-		let num = 0
-		state.cart.cart.forEach(item => num += item.goods_count)
+		const num = state.cart.cart.filter(item => item.goods_state).reduce((prev, next) => prev + next.goods_count, 0)
 		uni.setStorageSync('cartNum', num)
 		return num
-	}
+	},
+	myAddress: state => state.address.address
 }
